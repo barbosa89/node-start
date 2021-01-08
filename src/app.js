@@ -1,5 +1,7 @@
 'use strict'
 
+const cors = require('cors')
+const morgan = require('morgan')
 const express = require('express')
 const bodyParser = require('body-parser')
 const config = require('./config/init')
@@ -16,7 +18,8 @@ config.connect()
 // Middleware
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(config.cors)
+app.use(cors)
+app.use(morgan('dev'))
 
 // Default route
 app.get('/', (req, res) => {
