@@ -3,10 +3,22 @@ const Project = require('../models/project')
 
 module.exports = {
     index: (req, res) => {
-        res
-            .status(200)
-            .json({
-                message: 'Project Index'
+        Project
+            .find()
+            .then(projects => {
+                res
+                    .status(200)
+                    .json({
+                        projects
+                    })
+            })
+            .catch(error => {
+                res
+                    .status(500)
+                    .json({
+                        message: 'Internal server error',
+                        error: error
+                    })
             })
     },
     store: (req, res) => {
@@ -35,24 +47,70 @@ module.exports = {
             })
     },
     show: (req, res) => {
-        res
-            .status(200)
-            .json({
-                message: 'Project Show'
+        Project
+            .findById(req.params.id)
+            .then(project => {
+                res
+                    .status(200)
+                    .json({
+                        project: project
+                    })
+            })
+            .catch(error => {
+                if (error.kind == 'ObjectId') {
+                    res
+                        .status(404)
+                        .json({
+                            message: 'Project not found'
+                        })
+                }
+
+                res
+                    .status(500)
+                    .json({
+                        message: 'Internal server error',
+                        error: error
+                    })
             })
     },
     update: (req, res) => {
-        res
-            .status(200)
-            .json({
-                message: 'Project update'
+        Project
+            .findByIdAndUpdate(req.params.id, req.body)
+            .then(project => {
+                res
+                    .status(200)
+                    .json({
+                        project: project
+                    })
             })
+            .catch(error => {
+                res
+                    .status(500)
+                    .json({
+                        message: 'Internal server error',
+                        error: error
+                    })
+            })
+
     },
     delete: (req, res) => {
-        res
-            .status(200)
-            .json({
-                message: 'Project delete'
+        Project
+            .findByIdAndDelete(req.params.id)
+            .then(project => {
+                res
+                    .status(200)
+                    .json({
+                        message: 'Record was deleted',
+                        project: project
+                    })
+            })
+            .catch(error => {
+                res
+                    .status(500)
+                    .json({
+                        message: 'Internal server error',
+                        error: error
+                    })
             })
     }
 }

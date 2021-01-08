@@ -5,6 +5,8 @@ const dbName = process.env.DB_DATABASE || 'test'
 const dbUser = process.env.DB_USERNAME || ''
 const dbPassword = process.env.DB_PASSWORD || ''
 
+console.log(`Database: ${dbName}`)
+
 module.exports = {
     getConnection: function () {
         let auth = ''
