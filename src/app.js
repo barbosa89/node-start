@@ -18,7 +18,7 @@ config.connect()
 // Middleware
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(cors)
+app.use(config.cors)
 app.use(morgan('dev'))
 
 // Default route
