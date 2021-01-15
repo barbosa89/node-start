@@ -1,7 +1,7 @@
 const router = require('./router')
 const multer = require('multer')
 const path = require('path')
-const projectController = require('../controllers/project')
+const projectController = require('../app/http/controllers/project')
 
 // const upload = multer({dest: __dirname + '/storage/app/public/'})
 

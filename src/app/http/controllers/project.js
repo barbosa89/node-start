@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Project = require('../models/project')
+const Project = require('../../models/project')
 
 module.exports = {
     index: (req, res) => {
