@@ -1,6 +1,6 @@
 const mongose = require('mongoose')
 
-const projectSchema = mongose.Schema({
+const schema = mongose.Schema({
     _id: mongose.Schema.Types.ObjectId,
     description: {
         type: String,
@@ -12,4 +12,4 @@ const projectSchema = mongose.Schema({
     }
 })
 
-module.exports = mongose.model('Project', projectSchema)
+module.exports = mongose.model('Project', schema)
