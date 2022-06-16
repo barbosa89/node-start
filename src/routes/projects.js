@@ -1,11 +1,11 @@
-const router = require('./router')
-const multer = require('multer')
 const path = require('path')
+const multer = require('multer')
+const router = require('../core/router')
+const { checkSchema } = require('express-validator')
+const storeProject = require('../app/http/requests/store-project')
 const projectController = require('../app/http/controllers/project')
 
-// const upload = multer({dest: __dirname + '/storage/app/public/'})
-
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.resolve('src/storage/app/public/'))
     },
@@ -16,17 +16,16 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/projects/upload', upload.single('image'), projectController.upload)
+router.post('/upload', upload.single('image'), projectController.upload)
 
-router.get('/projects', projectController.index)
+router.get('/', projectController.index)
 
-router.post('/projects', projectController.store)
+router.post('/', checkSchema(storeProject), projectController.store)
 
-router.get('/projects/:id', projectController.show)
+router.get('/:id', projectController.show)
 
-router.put('/projects/:id', projectController.update)
+router.put('/:id', projectController.update)
 
-router.delete('/projects/:id', projectController.delete)
+router.delete('/:id', projectController.delete)
 
 module.exports = router
-

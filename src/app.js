@@ -1,14 +1,13 @@
 'use strict'
 
+const fs = require('fs')
+const path = require('path')
 const morgan = require('morgan')
 const express = require('express')
 const bodyParser = require('body-parser')
 const { cors } = require('./config/cors')
 const mongo = require('./core/database/drivers/mongo')
-
 const app = express()
-
-const projectRoutes = require('./routes/projects')
 
 mongo.connect()
 
@@ -25,6 +24,12 @@ app.get('/', (_req, res) => {
         })
 })
 
-app.use('/api/v1', projectRoutes)
+fs.readdir(path.resolve('src/routes'), (_err, files) => {
+    files.forEach(file => {
+        let module = file.replace('.js', '')
+
+        app.use(`/api/v1/${module}`, require('./routes/' + module))
+    });
+})
 
 module.exports = app
